@@ -1,7 +1,8 @@
 import numpy as np
 import time
-from app.sources.base import MessageSource
+from app.sources.base import MessageSource, FileSource
 from app.models.message import Message
+from app.models.file import File
 import logging
 
 class SimulatedMessageSource(MessageSource):
@@ -17,3 +18,16 @@ class SimulatedMessageSource(MessageSource):
             time.sleep(wait_time)
             logging.info(f'New message have just been published!', extra={'origin': self.__class__.__name__})
             yield Message(content=f'message at {time.time()}')
+
+class SimulatedFileSource(FileSource):
+
+    def __init__(self, mean_file_size: int = 5):
+        self.mean_file_size = mean_file_size
+
+    def get_files(self):
+        files = []
+        for i in range(1, 101):
+            file = File(name=f'file_{i}.csv', size_in_bytes=int(np.random.exponential(scale=self.mean_file_size*1024**2)))
+            files.append(file)
+
+        return files
