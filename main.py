@@ -3,6 +3,9 @@ from app.worker.pool import ThreadPoolWorkerPool
 from app.processors.batch_collector import MinibatchCollector
 from app.processors.nightly_processor import NightlyFileProcessor
 from app.bucketing.greedy import GreedyBucketingStrategy
+from bonus.models import Player
+from bonus.strategy import RandomSittingStrategy
+from bonus.tournament import Tournament
 import time
 import logging
 
@@ -30,5 +33,13 @@ def nightly_file_processing():
 
     processor.run()
 
+def bonus():
+    players = [Player(id=i) for i in range(12)]
+    strategy = RandomSittingStrategy()
+    tournament = Tournament(players=players, num_tables=3, players_per_table=4, strategy=strategy)
+    result = tournament.run()
+
+    print(result)
+
 if __name__ == "__main__":
-    nightly_file_processing()
+    bonus()
