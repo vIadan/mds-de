@@ -9,4 +9,5 @@ class ThreadPoolWorkerPool(WorkerPool):
         logging.info(f'Worker pool of type {__class__.__name__} with {num_workers} successfully initialized', extra={'origin': self.__class__.__name__})
 
     def submit(self, task: Task) -> None:
+        # pass the function reference, not the result - executor calls it in a background thread
         self.executor.submit(task.execute)

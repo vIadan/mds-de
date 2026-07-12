@@ -14,6 +14,7 @@ class SimulatedMessageSource(MessageSource):
     def stream(self):
         rate_per_sec = self.rate_per_min / 60
         while True:
+            # inter-arrival times follow exponential distribution - mathematical property of a Poisson process
             wait_time = np.random.exponential(1 / rate_per_sec)
             time.sleep(wait_time)
             logging.info(f'New message have just been published!', extra={'origin': self.__class__.__name__})
@@ -22,11 +23,12 @@ class SimulatedMessageSource(MessageSource):
 class SimulatedFileSource(FileSource):
 
     def __init__(self, mean_file_size: int = 5):
+        # mean_file_size is in MB
         self.mean_file_size = mean_file_size
 
     def get_files(self):
         files = []
-        for i in range(1, 101):
+        for i in range(100):
             file = File(name=f'file_{i}.csv', size_in_bytes=int(np.random.exponential(scale=self.mean_file_size*1024**2)))
             files.append(file)
 

@@ -10,7 +10,7 @@ class MinibatchTask(Task):
 
     def execute(self):
         logging.info(f'Processing batch \x1B[3m{self.batch.id}\x1B[0m with {len(self.batch.messages)} messages. This might take some time...', extra={'origin': self.__class__.__name__})
-        time.sleep(random.randint(3, 15))
+        time.sleep(random.randint(3, 15))  # simulates real processing work
         logging.info(f'Processing of batch \x1B[3m{self.batch.id}\x1B[0m just finished!', extra={'origin': self.__class__.__name__})
 
 class FileBucketTask(Task):

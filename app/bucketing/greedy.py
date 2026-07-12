@@ -14,6 +14,7 @@ class GreedyBucketingStrategy(BucketingStrategy):
                 current_bucket = FileBucket()
                 logging.info(f'Bucket \x1B[3m{current_bucket.id}\x1B[0m created successfully', extra={'origin': self.__class__.__name__})
 
+            # check before adding - a single file larger than BUCKET_MAX_SIZE will exceed the limit by design, it cannot be split
             if current_bucket.total_size + file.size_in_bytes > BUCKET_MAX_SIZE:
                 buckets.append(current_bucket)
                 current_bucket = FileBucket()
