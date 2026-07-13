@@ -10,7 +10,7 @@ class Player:
         self.num_wins += 1
 
     def __repr__(self):
-        return f'Player({self.id}, wins={self.num_wins})'
+        return f'Player_{self.id} with {self.num_wins} wins'
 
 class Table:
 
@@ -44,4 +44,4 @@ class TournamentResult:
         self.round_history = round_history
 
     def __repr__(self):
-        return f'TournamentResult(winner={self.winner}, rounds={len(self.round_history)})'
+        return f'Tournament result -> winner: {self.winner}, rounds={len(self.round_history)}'

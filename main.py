@@ -8,38 +8,36 @@ from bonus.strategy import RandomSittingStrategy
 from bonus.tournament import Tournament
 import time
 import logging
+from app.logging_config import ColorFormatter
 
-logging.basicConfig(level=logging.INFO, format='[%(asctime)s] (%(origin)s) - %(message)s')
+handler = logging.StreamHandler()
+handler.setFormatter(ColorFormatter('[%(asctime)s] (%(origin)s) - %(message)s'))
+logging.getLogger().addHandler(handler)
+logging.getLogger().setLevel(logging.INFO)
 
-def minibatch_stream_processing():
-    print('\n')
-
+def minibatch_stream_processing(pool: ThreadPoolWorkerPool):
     source = SimulatedMessageSource(rate_per_min=10)
-    pool = ThreadPoolWorkerPool()
     collector = MinibatchCollector(source=source, pool=pool, window_duration=10)
-
-    print('\n---------------------------------\n')
-
     collector.run()
-
     time.sleep(60)
 
-def nightly_file_processing():
-
-    source = SimulatedFileSource()
-    pool = ThreadPoolWorkerPool()
+def nightly_file_processing(pool: ThreadPoolWorkerPool):
+    source = SimulatedFileSource(mean_file_size=5)
     strategy = GreedyBucketingStrategy()
     processor = NightlyFileProcessor(file_source=source, bucketing_strategy=strategy, pool=pool)
-
     processor.run()
 
-def bonus():
+def tournament_organization_bonus():
     players = [Player(id=i) for i in range(12)]
     strategy = RandomSittingStrategy()
     tournament = Tournament(players=players, num_tables=3, players_per_table=4, strategy=strategy)
     result = tournament.run()
-
-    print(result)
+    logging.info(f'Tournament finished. {result}', extra={'origin': 'Tournament'})
 
 if __name__ == "__main__":
-    bonus()
+    pool = ThreadPoolWorkerPool()
+
+    nightly_file_processing(pool)
+    minibatch_stream_processing(pool)
+
+    tournament_organization_bonus()

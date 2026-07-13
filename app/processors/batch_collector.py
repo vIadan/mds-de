@@ -21,19 +21,19 @@ class MinibatchCollector:
             if current_batch is None:
                 current_batch = Minibatch()
                 window_start = time.time()
-                logging.info(f'Batch \x1B[3m{current_batch.id}\x1B[0m initialized. Collecting messages during next {self.window_duration} seconds...', extra={'origin': self.__class__.__name__})
+                logging.info(f'Batch \x1B[3m{current_batch.id}\x1B[23m initialized. Collecting messages during next {self.window_duration} seconds...', extra={'origin': self.__class__.__name__})
 
             current_batch.add(message)
 
             if time.time() - window_start >= self.window_duration:
-                logging.info(f'Window closed, batch filled. Submitting batch \x1B[3m{current_batch.id}\x1B[0m to workers for processing...', extra={'origin': self.__class__.__name__})
+                logging.info(f'Window closed, batch filled. Submitting batch \x1B[3m{current_batch.id}\x1B[23m to workers for processing...', extra={'origin': self.__class__.__name__})
                 self.pool.submit(MinibatchTask(current_batch))
                 current_batch = None
                 window_start = None
 
         # stream ended, flush if there is something left
         if current_batch and current_batch.messages:
-            logging.info(f'Window closed, batch filled. Submitting batch \x1B[3m{current_batch.id}\x1B[0m to workers for processing...', extra={'origin': self.__class__.__name__})
+            logging.info(f'Window closed, batch filled. Submitting batch \x1B[3m{current_batch.id}\x1B[23m to workers for processing...', extra={'origin': self.__class__.__name__})
             self.pool.submit(MinibatchTask(current_batch))
 
     def run(self):

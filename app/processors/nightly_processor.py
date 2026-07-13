@@ -1,3 +1,4 @@
+import threading
 from app.sources.base import FileSource
 from app.bucketing.base import BucketingStrategy
 from app.worker.base import WorkerPool
@@ -10,9 +11,12 @@ class NightlyFileProcessor:
         self.bucketing_strategy = bucketing_strategy
         self.pool = pool
 
-    def run(self):
+    def _process(self):
         files = self.file_source.get_files()
         buckets = self.bucketing_strategy.bucket(files)
         for bucket in buckets:
-            bucket_task = FileBucketTask(bucket)
-            self.pool.submit(bucket_task)
+            self.pool.submit(FileBucketTask(bucket))
+
+    def run(self):
+        thread = threading.Thread(target=self._process, daemon=True)
+        thread.start()
