@@ -3,6 +3,7 @@ from app.models.file import File, FileBucket
 from app.bucketing.base import BucketingStrategy
 from app.processors.nightly_processor import NightlyFileProcessor
 from app.tests.conftest import MockWorkerPool
+import time
 
 
 class MockFileSource(FileSource):
@@ -32,5 +33,6 @@ def test_nightly_processor_submits():
     processor = NightlyFileProcessor(file_source=source, bucketing_strategy=strategy, pool=pool)
 
     processor.run()
+    time.sleep(1)  # wait for background thread to finish
 
     assert len(pool.submitted) == 3

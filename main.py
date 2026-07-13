@@ -4,7 +4,7 @@ from app.processors.batch_collector import MinibatchCollector
 from app.processors.nightly_processor import NightlyFileProcessor
 from app.bucketing.greedy import GreedyBucketingStrategy
 from bonus.models import Player
-from bonus.strategy import RandomSittingStrategy
+from bonus.strategy import RandomSittingStrategy, SocialGolferStrategy
 from bonus.tournament import Tournament
 import time
 import logging
@@ -29,7 +29,7 @@ def nightly_file_processing(pool: ThreadPoolWorkerPool):
 
 def tournament_organization_bonus():
     players = [Player(id=i) for i in range(12)]
-    strategy = RandomSittingStrategy()
+    strategy = SocialGolferStrategy()
     tournament = Tournament(players=players, num_tables=3, players_per_table=4, strategy=strategy)
     result = tournament.run()
     logging.info(f'Tournament finished. {result}', extra={'origin': 'Tournament'})
