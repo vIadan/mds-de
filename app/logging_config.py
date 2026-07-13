@@ -4,6 +4,7 @@ COLORS = {
     'yellow': '\033[33m',
     'cyan': '\033[36m',
     'green': '\033[32m',
+    'magenta': '\033[35m',
     'reset': '\033[0m'
 }
 
@@ -15,6 +16,7 @@ ORIGIN_COLORS = {
     'FileBucketTask': COLORS['cyan'],
     'NightlyFileProcessor': COLORS['cyan'],
     'ThreadPoolWorkerPool': COLORS['green'],
+    'Tournament': COLORS['magenta'],
 }
 
 class ColorFormatter(logging.Formatter):

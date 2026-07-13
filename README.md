@@ -104,3 +104,4 @@ Each pipeline is color-coded in the terminal:
 - **Yellow** - stream processing (MinibatchCollector, MinibatchTask)
 - **Cyan** - nightly file processing (GreedyBucketingStrategy, FileBucketTask)
 - **Green** - worker pool initialization
+- **Magenta** - tournament scheduler
