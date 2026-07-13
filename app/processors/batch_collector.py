@@ -39,3 +39,4 @@ class MinibatchCollector:
     def run(self):
         thread = threading.Thread(target=self._collect, daemon=True)
         thread.start()
+        return thread

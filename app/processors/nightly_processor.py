@@ -20,3 +20,4 @@ class NightlyFileProcessor:
     def run(self):
         thread = threading.Thread(target=self._process, daemon=True)
         thread.start()
+        return thread
