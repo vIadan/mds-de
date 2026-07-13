@@ -2,7 +2,7 @@ from .models import Player
 from .strategy import SocialGolferStrategy
 from .tournament import Tournament
 import logging
-from app.logging_config import ColorFormatter
+from logging_config import ColorFormatter
 
 handler = logging.StreamHandler()
 handler.setFormatter(ColorFormatter('[%(asctime)s] (%(origin)s) - %(message)s'))

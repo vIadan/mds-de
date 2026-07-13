@@ -5,7 +5,7 @@ from app.processors.nightly_processor import NightlyFileProcessor
 from app.bucketing.greedy import GreedyBucketingStrategy
 import threading
 import logging
-from app.logging_config import ColorFormatter
+from logging_config import ColorFormatter
 
 handler = logging.StreamHandler()
 handler.setFormatter(ColorFormatter('[%(asctime)s] (%(origin)s) - %(message)s'))
